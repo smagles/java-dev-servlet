@@ -13,14 +13,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static time.common.Constants.UTC_TIMEZONE;
+
+
 @WebServlet("/time")
 public class TimeServlet extends HttpServlet {
-    TimezoneUtil timezoneUtil = new TimezoneUtil();
+    private final TimezoneUtil timezoneUtil = new TimezoneUtil();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String timezoneParameter = request.getParameter(Constants.TIMEZONE_PARAM);
-        TimeZone timeZone = timezoneUtil.getTimeZoneFromRequest(timezoneParameter);
+        TimeZone timeZone;
+
+        if (timezoneParameter != null) {
+            timeZone = timezoneUtil.getTimeZoneFromRequest(timezoneParameter);
+        } else {
+            timeZone = TimeZone.getTimeZone(UTC_TIMEZONE);
+        }
 
         String formattedDate = formatCurrentDateWithTimeZone(timeZone);
 

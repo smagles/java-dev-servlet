@@ -1,14 +1,14 @@
 package time.utils;
 
-import time.common.Constants;
-
 import java.util.TimeZone;
+
+import static time.common.Constants.UTC_TIMEZONE;
 
 public class TimezoneUtil {
     public TimeZone getTimeZoneFromRequest(String timezoneParameter) {
-        if (timezoneParameter != null && timezoneParameter.startsWith(Constants.UTC_TIMEZONE)) {
+        if (timezoneParameter.startsWith(UTC_TIMEZONE)) {
             String offset = timezoneParameter.substring(3);
-            String timeZoneID = findTimeZoneByUtcOffset(offset);
+            String timeZoneID = findTimeZoneByUTCOffset(offset);
             if (timeZoneID != null) {
                 return TimeZone.getTimeZone(timeZoneID);
             }
@@ -16,7 +16,7 @@ public class TimezoneUtil {
         return null;
     }
 
-    private String findTimeZoneByUtcOffset(String offsetParameter) {
+    private String findTimeZoneByUTCOffset(String offsetParameter) {
 
         char sign = offsetParameter.charAt(0);
         int offset = Integer.parseInt(offsetParameter.substring(1));
@@ -30,6 +30,7 @@ public class TimezoneUtil {
             if (timeZone.getRawOffset() == offset * 3600000) {
                 return id;
             }
+
         }
         return null;
     }

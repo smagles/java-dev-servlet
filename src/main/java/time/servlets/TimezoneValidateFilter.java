@@ -13,23 +13,24 @@ import java.io.PrintWriter;
 
 @WebFilter("/time")
 public class TimezoneValidateFilter extends HttpFilter {
-    TimezoneUtil timezoneUtil = new TimezoneUtil();
+    private final TimezoneUtil timezoneUtil = new TimezoneUtil();
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         if (request instanceof HttpServletRequest httpRequest && response instanceof HttpServletResponse httpResponse) {
 
-            String timezoneParam = httpRequest.getParameter(Constants.TIMEZONE_PARAM);
-
-            if (timezoneUtil.getTimeZoneFromRequest(timezoneParam) == null) {
-                httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                try (PrintWriter writer = httpResponse.getWriter()) {
-                    writer.write("Invalid timezone");
-                } catch (IOException e) {
-                    throw new ServletException("Error while writing to response", e);
+            String timezoneParameter = httpRequest.getParameter(Constants.TIMEZONE_PARAM);
+            if (timezoneParameter != null) {
+                if (timezoneUtil.getTimeZoneFromRequest(timezoneParameter) == null) {
+                    httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    try (PrintWriter writer = httpResponse.getWriter()) {
+                        writer.write("Invalid timezone");
+                    } catch (IOException e) {
+                        throw new ServletException("Error while writing to response", e);
+                    }
+                    return;
                 }
-                return;
             }
         }
         chain.doFilter(request, response);
