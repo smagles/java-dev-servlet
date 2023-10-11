@@ -22,7 +22,7 @@ public class TimezoneValidateFilter extends HttpFilter {
 
             String timezoneParam = httpRequest.getParameter(Constants.TIMEZONE_PARAM);
 
-            if (timezoneUtil.getTimeZoneFromRequest(timezoneParam) == null ) {
+            if (timezoneUtil.getTimeZoneFromRequest(timezoneParam) == null) {
                 httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 try (PrintWriter writer = httpResponse.getWriter()) {
                     writer.write("Invalid timezone");
