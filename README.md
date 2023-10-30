@@ -1,4 +1,4 @@
-# Java Dev Servlet Maven Webapp ⏰
+# Java Time Servlet Webapp ⏰
 The Time Servlet Web Application is a Java web application that allows users to view the current time in different timezones. Users can change the timezone to see the time in their preferred location. It utilizes servlets and Thymeleaf for rendering.
 
 ## Technologies Used
